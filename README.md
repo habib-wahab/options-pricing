@@ -22,7 +22,7 @@ A Qt Quick application for visualising option pricing and the Greeks using the B
 
 ## Requirements
 
-- Qt 6.2 or higher
+- Qt 6.8 or higher
 - QtQuick, QtCharts components
 
 ## Project Structure
