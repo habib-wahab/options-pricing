@@ -18,10 +18,8 @@ ApplicationWindow {
         id: optionsModel
     }
 
-    // Theme property
     property bool isDarkMode: false
 
-    // Light mode colors
     property color lightAccentColor: "#007ac3"
     property color lightBackgroundColor: "#f0f8ff"
     property color lightTextColor: "#333333"
@@ -31,7 +29,6 @@ ApplicationWindow {
     property color lightChartColor2: "#0066cc"
     property color lightChartColor3: "#3399ff"
 
-    // Dark mode colors
     property color darkAccentColor: "#1e88e5"
     property color darkBackgroundColor: "#121212"
     property color darkTextColor: "#ffffff"
@@ -41,7 +38,6 @@ ApplicationWindow {
     property color darkChartColor2: "#29b6f6"
     property color darkChartColor3: "#03a9f4"
 
-    // Current theme colors - will be updated when theme changes
     property color accentColor: isDarkMode ? darkAccentColor : lightAccentColor
     property color backgroundColor: isDarkMode ? darkBackgroundColor : lightBackgroundColor
     property color textColor: isDarkMode ? darkTextColor : lightTextColor
@@ -53,7 +49,6 @@ ApplicationWindow {
 
     color: backgroundColor
 
-    // Update chart theme when mode changes
     onIsDarkModeChanged: {
         priceChartView.theme = isDarkMode ? ChartView.ChartThemeDark : ChartView.ChartThemeLight
         deltaChartView.theme = isDarkMode ? ChartView.ChartThemeDark : ChartView.ChartThemeLight
@@ -531,7 +526,7 @@ ApplicationWindow {
         Text {
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignRight
-            text: "Options Pricing Visualisation Tool"
+            text: "Option Pricing Visualisation Tool"
             font.italic: true
             color: isDarkMode ? "#aaaaaa" : "#666666"
         }

@@ -3,7 +3,6 @@
 #include <cmath>
 #include <QtMath>
 #include <QVariantMap>
-#include <limits>
 
 OptionsModel::OptionsModel(QObject *parent)
     : QObject(parent),
@@ -26,7 +25,6 @@ OptionsModel::OptionsModel(QObject *parent)
 
 void OptionsModel::setSpotPrice(double spotPrice)
 {
-    // Ensure positive spot price
     if (spotPrice <= 0.0) {
         spotPrice = 0.01;
     }
@@ -42,7 +40,6 @@ void OptionsModel::setSpotPrice(double spotPrice)
 
 void OptionsModel::setStrikePrice(double strikePrice)
 {
-    // Ensure positive strike price
     if (strikePrice <= 0.0) {
         strikePrice = 0.01;
     }
@@ -69,7 +66,6 @@ void OptionsModel::setRiskFreeRate(double riskFreeRate)
 
 void OptionsModel::setVolatility(double volatility)
 {
-    // Ensure volatility is positive
     if (volatility <= 0.0) {
         volatility = 0.01;
     }
@@ -85,7 +81,6 @@ void OptionsModel::setVolatility(double volatility)
 
 void OptionsModel::setTimeToExpiry(double timeToExpiry)
 {
-    // Ensure time to expiry is positive
     if (timeToExpiry <= 0.0) {
         timeToExpiry = 0.01;
     }

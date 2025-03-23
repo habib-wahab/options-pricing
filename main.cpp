@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    app.setApplicationName("Options Pricing Tool");
+    app.setApplicationName("Option Pricing Tool");
     app.setApplicationVersion("1.0.0");
 
     qmlRegisterType<OptionsModel>("OptionPricingTool", 1, 0, "OptionsModel");
