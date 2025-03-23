@@ -38,23 +38,29 @@ The application consists of:
 - Qt development environment (Qt Creator recommended)
 - C++ compiler compatible with your Qt version
 
-### Steps
-1. Clone the repository:
-```
+Installation
+Steps
+
+Clone the repository:
+
 git clone https://github.com/habib-wahab/options-pricing.git
-```
 
-2. Open the project in Qt Creator or build from command line:
-```
-cd options-pricing
-qmake
-make
-```
+Open the project in Qt Creator:
 
-3. Run the application:
-```
-./options-pricing
-```
+Launch Qt Creator
+Select "Open Project"
+Navigate to the cloned repository and select the CMakeLists.txt file
+Configure the project when prompted
+
+Build and run directly from Qt Creator using the Run button
+
+2. Open the project in Qt Creator:
+   - Launch Qt Creator
+   - Select "Open Project"
+   - Navigate to the cloned repository and select the CMakeLists.txt file
+   - Configure the project when prompted
+
+3. Build and run directly from Qt Creator using the Run button
 
 ## Usage
 
