@@ -27,6 +27,10 @@ class OptionsModel : public QObject
     Q_PROPERTY(QVariantList deltaSeriesData READ deltaSeriesData NOTIFY deltaSeriesDataChanged)
     Q_PROPERTY(QVariantList gammaSeriesData READ gammaSeriesData NOTIFY gammaSeriesDataChanged)
 
+    Q_PROPERTY(double probabilityITM READ probabilityITM NOTIFY riskMetricsChanged)
+    Q_PROPERTY(double probabilityOTM READ probabilityOTM NOTIFY riskMetricsChanged) 
+    Q_PROPERTY(double breakEvenPrice READ breakEvenPrice NOTIFY riskMetricsChanged)
+
 public:
     explicit OptionsModel(QObject *parent = nullptr);
 
@@ -48,6 +52,21 @@ public:
     QVariantList deltaSeriesData() const { return m_deltaSeriesData; }
     QVariantList gammaSeriesData() const { return m_gammaSeriesData; }
 
+    double probabilityITM() const { return m_probabilityITM; }
+    double probabilityOTM() const { return m_probabilityOTM; }
+    double breakEvenPrice() const { return m_breakEvenPrice; }
+    double maxProfit() const { return m_maxProfit; }
+    double maxLoss() const { return m_maxLoss; }
+    double valueAtRisk() const { return m_valueAtRisk; }
+    double expectedPayoff() const { return m_expectedPayoff; }
+    double expectedStockPrice() const { return m_expectedStockPrice; }
+    double riskRewardRatio() const { return m_riskRewardRatio; }
+    double valueAtRisk1Day() const { return m_valueAtRisk1Day; }
+    double valueAtRisk10Day() const { return m_valueAtRisk10Day; }
+    double expectedPL() const { return m_expectedPL; }
+    double sharpeRatio() const { return m_sharpeRatio; }
+    double probabilityOfProfit() const { return m_probabilityOfProfit; }
+
     void setSpotPrice(double spotPrice);
     void setStrikePrice(double strikePrice);
     void setRiskFreeRate(double riskFreeRate);
@@ -59,6 +78,7 @@ public slots:
     void calculateOptionPrice();
     void generateSeriesData();
     void resetToDefaults();
+    void calculateRiskMetrics();
 
 signals:
     void spotPriceChanged();
@@ -75,6 +95,7 @@ signals:
     void priceSeriesDataChanged();
     void deltaSeriesDataChanged();
     void gammaSeriesDataChanged();
+    void riskMetricsChanged();
 
 private:
     double blackScholesPrice(double S, double K, double r, double v, double T, bool isCall);
@@ -106,6 +127,21 @@ private:
     QVariantList m_priceSeriesData;
     QVariantList m_deltaSeriesData;
     QVariantList m_gammaSeriesData;
+
+    double m_probabilityITM;
+    double m_probabilityOTM;
+    double m_breakEvenPrice;
+    double m_maxProfit;
+    double m_maxLoss;
+    double m_valueAtRisk;
+    double m_expectedPayoff;
+    double m_expectedStockPrice;
+    double m_riskRewardRatio;
+    double m_valueAtRisk1Day;
+    double m_valueAtRisk10Day;
+    double m_expectedPL;
+    double m_sharpeRatio;
+    double m_probabilityOfProfit;
 };
 
 #endif // OPTIONSMODEL_H

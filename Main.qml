@@ -300,12 +300,63 @@ ApplicationWindow {
                         Text { text: optionsModel.rho.toFixed(4); color: textColor }
                     }
 
-                    Item { Layout.fillHeight: true }
-
                     Button {
+                        Layout.alignment: Qt.AlignCenter
+                        Layout.preferredHeight: 40
+                        Layout.preferredWidth: 180
+                        Layout.topMargin: 10
+                        Layout.bottomMargin: 10
+                        
                         text: "Reset to Defaults"
-                        Layout.fillWidth: true
+                        icon.source: "qrc:/icons/reset.svg"
+                        icon.color: textColor
+                        
+                        background: Rectangle {
+                            radius: 5
+                            color: parent.pressed ? (isDarkMode ? "#404040" : "#e0e0e0") 
+                                   : parent.hovered ? (isDarkMode ? "#505050" : "#f0f0f0")
+                                   : (isDarkMode ? "#424242" : "#ffffff")
+                            border.color: accentColor
+                            border.width: 1
+                            
+                            Behavior on color {
+                                ColorAnimation { duration: 100 }
+                            }
+                        }
+                        
+                        contentItem: Item {
+                            Row {
+                                spacing: 8
+                                anchors.centerIn: parent
+                                
+                                Text {
+                                    text: "↺"
+                                    font.pixelSize: 16
+                                    color: textColor
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+                                
+                                Text {
+                                    text: parent.parent.parent.text
+                                    font.pixelSize: 14
+                                    color: textColor
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+                            }
+                        }
+                        
                         onClicked: optionsModel.resetToDefaults()
+                        
+                        Behavior on scale {
+                            NumberAnimation { duration: 100 }
+                        }
+                        
+                        scale: pressed ? 0.95 : 1.0
+                        
+                        hoverEnabled: true
+                        ToolTip.visible: hovered
+                        ToolTip.text: "Reset all parameters to their default values"
+                        ToolTip.delay: 500
                     }
                 }
             }
@@ -357,6 +408,20 @@ ApplicationWindow {
                     }
                     TabButton {
                         text: "Gamma"
+                        contentItem: Text {
+                            text: parent.text
+                            color: parent.checked ? accentColor : textColor
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                        background: Rectangle {
+                            color: parent.checked ? (isDarkMode ? "#333333" : "white") : "transparent"
+                            border.color: parent.checked ? accentColor : "transparent"
+                            border.width: parent.checked ? 2 : 0
+                        }
+                    }
+                    TabButton {
+                        text: "Risk Analysis"
                         contentItem: Text {
                             text: parent.text
                             color: parent.checked ? accentColor : textColor
@@ -518,6 +583,14 @@ ApplicationWindow {
                             color: "red"
                             markerSize: 10
                         }
+                    }
+
+                    RiskMetricsDashboard {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        optionsModel: optionsModel
+                        textColor: window.textColor
+                        accentColor: window.accentColor
                     }
                 }
             }

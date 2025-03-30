@@ -17,6 +17,7 @@ qt_add_qml_module(appoptions-pricing
     VERSION 1.0
     QML_FILES
         Main.qml
+        RiskMetricsDashboard.qml
         SOURCES optionsmodel.h optionsmodel.cpp
 )
 

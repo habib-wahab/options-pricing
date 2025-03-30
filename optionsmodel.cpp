@@ -21,6 +21,7 @@ OptionsModel::OptionsModel(QObject *parent)
 {
     calculateOptionPrice();
     generateSeriesData();
+    calculateRiskMetrics();
 }
 
 void OptionsModel::setSpotPrice(double spotPrice)
@@ -36,6 +37,7 @@ void OptionsModel::setSpotPrice(double spotPrice)
     emit spotPriceChanged();
     calculateOptionPrice();
     generateSeriesData();
+    calculateRiskMetrics();
 }
 
 void OptionsModel::setStrikePrice(double strikePrice)
@@ -51,6 +53,7 @@ void OptionsModel::setStrikePrice(double strikePrice)
     emit strikePriceChanged();
     calculateOptionPrice();
     generateSeriesData();
+    calculateRiskMetrics();
 }
 
 void OptionsModel::setRiskFreeRate(double riskFreeRate)
@@ -62,6 +65,7 @@ void OptionsModel::setRiskFreeRate(double riskFreeRate)
     emit riskFreeRateChanged();
     calculateOptionPrice();
     generateSeriesData();
+    calculateRiskMetrics();
 }
 
 void OptionsModel::setVolatility(double volatility)
@@ -77,6 +81,7 @@ void OptionsModel::setVolatility(double volatility)
     emit volatilityChanged();
     calculateOptionPrice();
     generateSeriesData();
+    calculateRiskMetrics();
 }
 
 void OptionsModel::setTimeToExpiry(double timeToExpiry)
@@ -92,6 +97,7 @@ void OptionsModel::setTimeToExpiry(double timeToExpiry)
     emit timeToExpiryChanged();
     calculateOptionPrice();
     generateSeriesData();
+    calculateRiskMetrics();
 }
 
 void OptionsModel::setIsCallOption(bool isCallOption)
@@ -103,6 +109,30 @@ void OptionsModel::setIsCallOption(bool isCallOption)
     emit isCallOptionChanged();
     calculateOptionPrice();
     generateSeriesData();
+    calculateRiskMetrics();
+}
+
+void OptionsModel::calculateRiskMetrics()
+{
+    double d1 = (qLn(m_spotPrice / m_strikePrice) + (m_riskFreeRate + 0.5 * m_volatility * m_volatility) * m_timeToExpiry) 
+                / (m_volatility * qSqrt(m_timeToExpiry));
+    double d2 = d1 - m_volatility * qSqrt(m_timeToExpiry);
+
+    if (m_isCallOption) {
+        m_probabilityITM = normalCDF(d2);
+        m_probabilityOTM = 1.0 - m_probabilityITM;
+    } else {
+        m_probabilityITM = normalCDF(-d2);
+        m_probabilityOTM = 1.0 - m_probabilityITM;
+    }
+
+    if (m_isCallOption) {
+        m_breakEvenPrice = m_strikePrice + m_optionPrice;
+    } else {
+        m_breakEvenPrice = m_strikePrice - m_optionPrice;
+    }
+
+    emit riskMetricsChanged();
 }
 
 void OptionsModel::calculateOptionPrice()
@@ -125,8 +155,7 @@ void OptionsModel::generateSeriesData()
     m_deltaSeriesData.clear();
     m_gammaSeriesData.clear();
 
-    const int numPoints = 100; // Increased for smoother curves
-    // Ensure current spot price is included in the range
+    const int numPoints = 100;
     const double minSpot = qMin(m_strikePrice * 0.6, m_spotPrice * 0.8);
     const double maxSpot = qMax(m_strikePrice * 1.4, m_spotPrice * 1.2);
     const double step = (maxSpot - minSpot) / numPoints;
@@ -182,7 +211,6 @@ void OptionsModel::resetToDefaults()
 
 double OptionsModel::safeCalculation(double value) const
 {
-    // Handle potential numerical errors
     if (std::isnan(value) || std::isinf(value)) {
         return 0.0;
     }
@@ -191,7 +219,6 @@ double OptionsModel::safeCalculation(double value) const
 
 double OptionsModel::blackScholesPrice(double S, double K, double r, double v, double T, bool isCall)
 {
-    // Enhanced safety checks
     if (v <= 0.0 || T <= 0.0 || S <= 0.0 || K <= 0.0) {
         return 0.0;
     }
