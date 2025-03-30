@@ -13,12 +13,20 @@ A Qt Quick application for visualising option pricing and the Greeks using the B
   - Volatility
   - Risk-free rate
   - Time to expiry
+- Risk Analysis Dashboard including:
+  - Probability metrics (ITM/OTM)
+  - Break-even analysis
+  - Option sensitivity measures
+  - Payoff diagram
+  - Price distribution at expiry
+  - Intrinsic and time value calculations
 - Dark/Light mode toggle for comfortable viewing in different environments
 - Responsive design with proper resising behavior
 
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/561973d2-936f-470c-a422-f197ba16a53e)
 ![image](https://github.com/user-attachments/assets/ad2ba41c-015f-4d00-8c15-118afaf7de39)
+![image](https://github.com/user-attachments/assets/5eadeff8-ca4d-4503-bdee-328d0ed7b562)
 
 ## Requirements
 
