@@ -80,6 +80,9 @@ public slots:
     void resetToDefaults();
     void calculateRiskMetrics();
 
+private:
+    void updateAllCalculations();
+
 signals:
     void spotPriceChanged();
     void strikePriceChanged();

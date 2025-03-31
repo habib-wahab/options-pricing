@@ -19,9 +19,7 @@ OptionsModel::OptionsModel(QObject *parent)
     m_vega(0.0),
     m_rho(0.0)
 {
-    calculateOptionPrice();
-    generateSeriesData();
-    calculateRiskMetrics();
+    updateAllCalculations();
 }
 
 void OptionsModel::setSpotPrice(double spotPrice)
@@ -35,9 +33,7 @@ void OptionsModel::setSpotPrice(double spotPrice)
 
     m_spotPrice = spotPrice;
     emit spotPriceChanged();
-    calculateOptionPrice();
-    generateSeriesData();
-    calculateRiskMetrics();
+    updateAllCalculations();
 }
 
 void OptionsModel::setStrikePrice(double strikePrice)
@@ -51,9 +47,7 @@ void OptionsModel::setStrikePrice(double strikePrice)
 
     m_strikePrice = strikePrice;
     emit strikePriceChanged();
-    calculateOptionPrice();
-    generateSeriesData();
-    calculateRiskMetrics();
+    updateAllCalculations();
 }
 
 void OptionsModel::setRiskFreeRate(double riskFreeRate)
@@ -63,9 +57,7 @@ void OptionsModel::setRiskFreeRate(double riskFreeRate)
 
     m_riskFreeRate = riskFreeRate;
     emit riskFreeRateChanged();
-    calculateOptionPrice();
-    generateSeriesData();
-    calculateRiskMetrics();
+    updateAllCalculations();
 }
 
 void OptionsModel::setVolatility(double volatility)
@@ -79,9 +71,7 @@ void OptionsModel::setVolatility(double volatility)
 
     m_volatility = volatility;
     emit volatilityChanged();
-    calculateOptionPrice();
-    generateSeriesData();
-    calculateRiskMetrics();
+    updateAllCalculations();
 }
 
 void OptionsModel::setTimeToExpiry(double timeToExpiry)
@@ -95,9 +85,7 @@ void OptionsModel::setTimeToExpiry(double timeToExpiry)
 
     m_timeToExpiry = timeToExpiry;
     emit timeToExpiryChanged();
-    calculateOptionPrice();
-    generateSeriesData();
-    calculateRiskMetrics();
+    updateAllCalculations();
 }
 
 void OptionsModel::setIsCallOption(bool isCallOption)
@@ -107,9 +95,7 @@ void OptionsModel::setIsCallOption(bool isCallOption)
 
     m_isCallOption = isCallOption;
     emit isCallOptionChanged();
-    calculateOptionPrice();
-    generateSeriesData();
-    calculateRiskMetrics();
+    updateAllCalculations();
 }
 
 void OptionsModel::calculateRiskMetrics()
@@ -189,6 +175,13 @@ void OptionsModel::generateSeriesData()
     emit gammaSeriesDataChanged();
 }
 
+void OptionsModel::updateAllCalculations()
+{
+    calculateOptionPrice();
+    generateSeriesData();
+    calculateRiskMetrics();
+}
+
 void OptionsModel::resetToDefaults()
 {
     m_spotPrice = 100.0;
@@ -205,8 +198,7 @@ void OptionsModel::resetToDefaults()
     emit timeToExpiryChanged();
     emit isCallOptionChanged();
 
-    calculateOptionPrice();
-    generateSeriesData();
+    updateAllCalculations();
 }
 
 double OptionsModel::safeCalculation(double value) const
