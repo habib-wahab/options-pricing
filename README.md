@@ -24,9 +24,10 @@ A Qt Quick application for visualising option pricing and the Greeks using the B
 - Responsive design with proper resising behavior
 
 ## Screenshots
-![image](https://github.com/user-attachments/assets/561973d2-936f-470c-a422-f197ba16a53e)
-![image](https://github.com/user-attachments/assets/ad2ba41c-015f-4d00-8c15-118afaf7de39)
-![image](https://github.com/user-attachments/assets/5eadeff8-ca4d-4503-bdee-328d0ed7b562)
+
+![image](https://github.com/user-attachments/assets/eeef9b63-8475-4381-99b5-b730293736f0)
+![image](https://github.com/user-attachments/assets/32428a4d-5ed9-49f0-9566-229234c52fad)
+![image](https://github.com/user-attachments/assets/4c4a7dcb-8b21-4b18-b607-a9bb03e502ba)
 
 ## Requirements
 
