@@ -1,18 +1,32 @@
 import QtQuick
-import QtQuick.Controls.Basic
+import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtCharts
 import QtQuick.Window
+import QtQuick.Effects
 import OptionPricingTool 1.0
 
 ApplicationWindow {
     id: window
     visible: true
-            width: 1000
-    height: 700
-    minimumWidth: 800
-    minimumHeight: 600
-    title: "Option Pricing Visualisation"
+    width: 1400
+    height: 900
+    minimumWidth: 1200
+    minimumHeight: 800
+    title: "Options Pricing Visualisation"
+    
+    Material.theme: Material.Dark
+    Material.accent: "#2196F3"
+    Material.primary: "#1976D2"
+    Material.background: "#121212"
+    Material.elevation: 6
+    
+    property color accentGradientStart: "#2196F3"
+    property color accentGradientEnd: "#1976D2"
+    property color cardBackground: "#1E1E1E"
+    property color surfaceColor: "#242424"
+    property real defaultRadius: 12
+    property real defaultElevation: 6
 
     OptionsModel {
         id: optionsModel
@@ -67,21 +81,38 @@ ApplicationWindow {
 
         Rectangle {
             Layout.fillWidth: true
-            height: 60
-            color: accentColor
-            radius: 5
+            height: 70
+            radius: defaultRadius
+            
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: accentGradientStart }
+                GradientStop { position: 1.0; color: accentGradientEnd }
+            }
+            
+            layer.enabled: true
+            layer.effect: MultiEffect {
+                shadowEnabled: true
+                shadowColor: "#000000"
+                shadowOpacity: 0.3
+                shadowHorizontalOffset: 0
+                shadowVerticalOffset: 2
+                shadowBlur: 12
+            }
 
             RowLayout {
                 anchors.fill: parent
-                anchors.leftMargin: 20
-                anchors.rightMargin: 20
+                anchors.leftMargin: 24
+                anchors.rightMargin: 24
 
                 Text {
                     Layout.fillWidth: true
-                    text: "Option Pricing Visualisation Tool"
-                    font.pixelSize: 24
-                    font.bold: true
-                    color: "white"
+                    text: "Options Analytics Dashboard"
+                    font {
+                        family: "Segoe UI"
+                        pixelSize: 28
+                        weight: Font.DemiBold
+                    }
+                    color: "#FFFFFF"
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -110,13 +141,21 @@ ApplicationWindow {
             spacing: 10
 
             Rectangle {
-                Layout.preferredWidth: 300
-                Layout.minimumWidth: 250
+                Layout.preferredWidth: 320
+                Layout.minimumWidth: 300
                 Layout.fillHeight: true
-                color: panelColor
-                radius: 5
-                border.color: borderColor
-                border.width: 1
+                color: isDarkMode ? cardBackground : "#ffffff"
+                radius: defaultRadius
+                
+                layer.enabled: true
+                layer.effect: MultiEffect {
+                    shadowEnabled: true
+                    shadowColor: "#000000"
+                    shadowOpacity: 0.2
+                    shadowHorizontalOffset: 0
+                    shadowVerticalOffset: 2
+                    shadowBlur: 15
+                }
 
                 ScrollView {
                     id: optionsScrollView
@@ -146,25 +185,68 @@ ApplicationWindow {
                             color: textColor
                         }
                         RadioButton {
+                            id: callButton
                             text: "Call"
                             checked: optionsModel.isCallOption
                             onClicked: optionsModel.isCallOption = true
+                            
                             contentItem: Text {
-                                text: parent.text
+                                text: callButton.text
                                 color: textColor
-                                leftPadding: parent.indicator.width + 4
+                                leftPadding: callButton.indicator.width + 4
                                 verticalAlignment: Text.AlignVCenter
                             }
+                            
+                            indicator: Rectangle {
+                                implicitWidth: 20
+                                implicitHeight: 20
+                                x: callButton.leftPadding
+                                y: parent.height / 2 - height / 2
+                                radius: 10
+                                border.color: callButton.checked ? accentColor : textColor
+                                border.width: 2
+                                
+                                Rectangle {
+                                    width: 10
+                                    height: 10
+                                    anchors.centerIn: parent
+                                    radius: 5
+                                    color: callButton.checked ? accentColor : "transparent"
+                                    visible: callButton.checked
+                                }
+                            }
                         }
+                        
                         RadioButton {
+                            id: putButton
                             text: "Put"
                             checked: !optionsModel.isCallOption
                             onClicked: optionsModel.isCallOption = false
+                            
                             contentItem: Text {
-                                text: parent.text
+                                text: putButton.text
                                 color: textColor
-                                leftPadding: parent.indicator.width + 4
+                                leftPadding: putButton.indicator.width + 4
                                 verticalAlignment: Text.AlignVCenter
+                            }
+                            
+                            indicator: Rectangle {
+                                implicitWidth: 20
+                                implicitHeight: 20
+                                x: putButton.leftPadding
+                                y: parent.height / 2 - height / 2
+                                radius: 10
+                                border.color: putButton.checked ? accentColor : textColor
+                                border.width: 2
+                                
+                                Rectangle {
+                                    width: 10
+                                    height: 10
+                                    anchors.centerIn: parent
+                                    radius: 5
+                                    color: putButton.checked ? accentColor : "transparent"
+                                    visible: putButton.checked
+                                }
                             }
                         }
                     }
